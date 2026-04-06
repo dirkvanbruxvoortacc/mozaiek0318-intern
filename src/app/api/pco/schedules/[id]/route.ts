@@ -6,7 +6,7 @@ const PCO_BASE = "https://api.planningcenteronline.com";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -14,10 +14,11 @@ export async function PATCH(
       return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
     }
 
+    const { id } = await params;
     const body = await request.json();
 
     const res = await fetch(
-      `${PCO_BASE}/services/v2/schedules/${params.id}`,
+      `${PCO_BASE}/services/v2/schedules/${id}`,
       {
         method: "PATCH",
         headers: {
