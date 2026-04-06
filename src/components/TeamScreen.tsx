@@ -26,7 +26,7 @@ export function TeamScreen() {
       .finally(() => setLoading(false));
   }, []);
 
-  const toggleTeam = async (teamId: string) => {
+  const toggleTeam = async (teamId: string, serviceTypeId: string) => {
     if (expanded === teamId) {
       setExpanded(null);
       return;
@@ -36,7 +36,9 @@ export function TeamScreen() {
 
     setLoadingMembers(teamId);
     try {
-      const res = await fetch(`/api/pco/teams/members?teamId=${teamId}`);
+      const res = await fetch(
+        `/api/pco/teams/members?teamId=${teamId}&serviceTypeId=${serviceTypeId}`
+      );
       const data: PCOListResponse<PCOTeamMember> & { error?: string } =
         await res.json();
       if (data.error) throw new Error(data.error);
@@ -75,7 +77,7 @@ export function TeamScreen() {
                 isExpanded={expanded === team.id}
                 members={members[team.id] ?? null}
                 isLoadingMembers={loadingMembers === team.id}
-                onToggle={() => toggleTeam(team.id)}
+                onToggle={() => toggleTeam(team.id, team.service_type_id ?? "")}
               />
             ))}
           </div>

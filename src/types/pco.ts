@@ -66,6 +66,7 @@ export interface PCOServiceType {
 
 export interface PCOTeam {
   id: string;
+  service_type_id?: string;
   attributes: {
     name: string;
     default_status: string;
