@@ -7,6 +7,7 @@ export interface PCOEpisode {
     image_url: string | null;
     video_url: string | null;
     audio_url: string | null;
+    series_title?: string | null;
   };
 }
 
