@@ -55,7 +55,7 @@ export function TeamScreen() {
         subtitle={`${teams.length} team${teams.length !== 1 ? "s" : ""}`}
       />
 
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 max-w-3xl md:mx-auto">
         {loading ? (
           <LoadingSpinner label="Teams laden..." />
         ) : error ? (

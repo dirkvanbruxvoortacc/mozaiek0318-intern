@@ -29,18 +29,17 @@ export function LoginScreen() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col max-w-lg mx-auto bg-brand-blue">
+    <div className="min-h-screen flex items-center justify-center bg-brand-blue relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-teal/10" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-white/5" />
       </div>
 
-      {/* Content */}
-      <div className="relative flex flex-col flex-1 px-8 py-12">
+      {/* Content — full screen on mobile, centered card on desktop */}
+      <div className="relative w-full max-w-sm mx-auto flex flex-col min-h-screen md:min-h-0 md:rounded-3xl md:shadow-2xl md:bg-white/5 md:backdrop-blur-sm px-8 py-12">
         {/* Logo area */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-6">
-          {/* Mozaiek logo mark */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-6 md:flex-none md:mb-10">
           <div className="w-24 h-24 rounded-3xl bg-white shadow-lg flex items-center justify-center">
             <svg
               viewBox="0 0 80 80"

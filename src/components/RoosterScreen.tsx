@@ -100,7 +100,7 @@ export function RoosterScreen() {
         ))}
       </div>
 
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 max-w-3xl md:mx-auto">
         {loading ? (
           <LoadingSpinner label="Rooster laden..." />
         ) : error ? (

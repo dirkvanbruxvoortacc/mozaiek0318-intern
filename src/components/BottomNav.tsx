@@ -91,26 +91,73 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-surface-border safe-bottom">
-      <div className="flex items-stretch h-16 max-w-lg mx-auto">
-        {navItems.map((item) => {
-          const active = pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex-1 flex flex-col items-center justify-center gap-1 transition-colors",
-                active ? "text-brand-teal" : "text-brand-blue/40 hover:text-brand-blue/70"
-              )}
-              aria-current={active ? "page" : undefined}
-            >
-              {item.icon(active)}
-              <span className="text-xs font-medium">{item.label}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+    <>
+      {/* Mobile bottom nav */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-surface-border safe-bottom">
+        <div className="flex items-stretch h-16">
+          {navItems.map((item) => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex-1 flex flex-col items-center justify-center gap-1 transition-colors",
+                  active ? "text-brand-teal" : "text-brand-blue/40 hover:text-brand-blue/70"
+                )}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.icon(active)}
+                <span className="text-xs font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* Desktop side nav */}
+      <nav className="hidden md:flex fixed top-0 left-0 h-full w-56 z-50 bg-white border-r border-surface-border flex-col">
+        {/* Logo */}
+        <div className="px-5 py-6 border-b border-surface-border">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-brand-blue flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 80 80" fill="none" className="w-5 h-5" aria-hidden="true">
+                <rect x="4" y="4" width="33" height="33" rx="4" fill="white" />
+                <rect x="43" y="4" width="33" height="33" rx="4" fill="#00A896" />
+                <rect x="4" y="43" width="33" height="33" rx="4" fill="#F4A261" />
+                <rect x="43" y="43" width="33" height="33" rx="4" fill="white" opacity="0.6" />
+              </svg>
+            </div>
+            <span className="font-bold text-brand-blue text-sm leading-tight">
+              Deelkracht
+              <span className="block text-xs font-normal text-brand-blue/50">Mozaiek 0318</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Nav links */}
+        <div className="flex-1 py-4 px-3 space-y-1">
+          {navItems.map((item) => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors text-sm font-medium",
+                  active
+                    ? "bg-brand-teal/10 text-brand-teal"
+                    : "text-brand-blue/60 hover:text-brand-blue hover:bg-surface-muted"
+                )}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.icon(active)}
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 }

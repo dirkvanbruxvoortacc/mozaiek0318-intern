@@ -24,7 +24,7 @@ export function ProfielScreen() {
     <div>
       <PageHeader title="Profiel" />
 
-      <div className="px-4 py-6 space-y-4">
+      <div className="px-4 py-6 space-y-4 max-w-3xl md:mx-auto">
         {/* Profile card */}
         <Card className="flex items-center gap-4 py-5">
           <Avatar src={avatar} name={name} size="lg" />

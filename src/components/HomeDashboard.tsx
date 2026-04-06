@@ -44,14 +44,16 @@ export function HomeDashboard({ session }: Props) {
   return (
     <div>
       {/* Header */}
-      <div className="bg-brand-blue px-4 pt-12 pb-8">
-        <p className="text-white/60 text-sm mb-1">{greeting},</p>
-        <h1 className="text-3xl font-bold text-white tracking-tight">
-          {firstName}
-        </h1>
-        <p className="text-white/60 text-sm mt-2">
-          Welkom terug bij Mozaiek 0318
-        </p>
+      <div className="bg-brand-blue px-4 pt-8 pb-8 md:pt-10">
+        <div className="max-w-3xl md:mx-auto">
+          <p className="text-white/60 text-sm mb-1">{greeting},</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">
+            {firstName}
+          </h1>
+          <p className="text-white/60 text-sm mt-2">
+            Welkom terug bij Mozaiek 0318
+          </p>
+        </div>
       </div>
 
       {/* Wave separator */}
@@ -67,9 +69,9 @@ export function HomeDashboard({ session }: Props) {
         </svg>
       </div>
 
-      <div className="px-4 space-y-6 py-4">
+      <div className="px-4 space-y-6 py-4 max-w-3xl md:mx-auto">
         {/* Quick actions */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:max-w-sm">
           <Link href="/rooster">
             <Card className="flex flex-col items-center gap-3 py-5">
               <div className="w-12 h-12 rounded-full bg-brand-teal/10 flex items-center justify-center">
