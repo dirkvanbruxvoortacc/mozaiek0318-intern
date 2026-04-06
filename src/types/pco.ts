@@ -1,3 +1,15 @@
+export interface PCOEpisode {
+  id: string;
+  attributes: {
+    title: string;
+    published_at: string | null;
+    description: string | null;
+    image_url: string | null;
+    video_url: string | null;
+    audio_url: string | null;
+  };
+}
+
 export interface PCOPerson {
   id: string;
   attributes: {
