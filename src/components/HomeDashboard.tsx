@@ -13,11 +13,23 @@ interface Props {
   session: Session | null;
 }
 
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Goedemorgen";
+  if (hour < 18) return "Goedemiddag";
+  return "Goedenavond";
+}
+
 export function HomeDashboard({ session }: Props) {
   const [schedules, setSchedules] = useState<PCOSchedule[]>([]);
   const [loading, setLoading] = useState(true);
+  const [greeting, setGreeting] = useState("");
 
   const firstName = session?.user?.name?.split(" ")[0] ?? "Hallo";
+
+  useEffect(() => {
+    setGreeting(getGreeting());
+  }, []);
 
   useEffect(() => {
     fetch("/api/pco/schedules")
@@ -29,18 +41,11 @@ export function HomeDashboard({ session }: Props) {
       .finally(() => setLoading(false));
   }, []);
 
-  const greeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Goedemorgen";
-    if (hour < 18) return "Goedemiddag";
-    return "Goedenavond";
-  };
-
   return (
     <div>
       {/* Header */}
       <div className="bg-brand-blue px-4 pt-12 pb-8">
-        <p className="text-white/60 text-sm mb-1">{greeting()},</p>
+        <p className="text-white/60 text-sm mb-1">{greeting},</p>
         <h1 className="text-3xl font-bold text-white tracking-tight">
           {firstName}
         </h1>
