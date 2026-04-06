@@ -3,13 +3,22 @@ import { authOptions } from "@/lib/auth";
 
 const PCO_BASE = "https://api.planningcenteronline.com";
 
+function getPcoAuthHeader(): string {
+  const id = process.env.PCO_PAT_ID;
+  const secret = process.env.PCO_PAT_SECRET;
+  if (!id || !secret) {
+    throw new Error("PCO PAT is niet geconfigureerd");
+  }
+  return "Basic " + Buffer.from(`${id}:${secret}`).toString("base64");
+}
+
 export async function pcoFetch<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
   const session = await getServerSession(authOptions);
 
-  if (!session?.accessToken) {
+  if (!session) {
     throw new Error("Niet ingelogd");
   }
 
@@ -18,7 +27,7 @@ export async function pcoFetch<T>(
   const res = await fetch(url, {
     ...options,
     headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+      Authorization: getPcoAuthHeader(),
       "Content-Type": "application/json",
       ...options.headers,
     },

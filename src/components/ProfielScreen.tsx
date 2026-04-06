@@ -85,8 +85,8 @@ export function ProfielScreen() {
               />
             )}
             <InfoRow
-              label="Planning Center ID"
-              value={session?.pcoId ?? "—"}
+              label="Team"
+              value="Mozaiek0318 Staff"
               icon={
                 <svg
                   className="w-4 h-4"

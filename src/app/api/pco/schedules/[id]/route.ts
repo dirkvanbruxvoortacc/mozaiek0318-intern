@@ -4,13 +4,22 @@ import { authOptions } from "@/lib/auth";
 
 const PCO_BASE = "https://api.planningcenteronline.com";
 
+function getPcoAuthHeader(): string {
+  const id = process.env.PCO_PAT_ID;
+  const secret = process.env.PCO_PAT_SECRET;
+  if (!id || !secret) {
+    throw new Error("PCO PAT is niet geconfigureerd");
+  }
+  return "Basic " + Buffer.from(`${id}:${secret}`).toString("base64");
+}
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.accessToken) {
+    if (!session) {
       return NextResponse.json({ error: "Niet ingelogd" }, { status: 401 });
     }
 
@@ -22,7 +31,7 @@ export async function PATCH(
       {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${session.accessToken}`,
+          Authorization: getPcoAuthHeader(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),

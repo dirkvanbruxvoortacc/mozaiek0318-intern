@@ -5,11 +5,27 @@ import { useState } from "react";
 import { Button } from "@/components/Button";
 
 export function LoginScreen() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
     setLoading(true);
-    await signIn("planningcenter", { callbackUrl: "/home" });
+    const result = await signIn("credentials", {
+      username,
+      password,
+      callbackUrl: "/home",
+      redirect: false,
+    });
+    if (result?.error) {
+      setError("Onjuiste gebruikersnaam of wachtwoord");
+      setLoading(false);
+    } else if (result?.url) {
+      window.location.href = result.url;
+    }
   };
 
   return (
@@ -32,7 +48,6 @@ export function LoginScreen() {
               className="w-16 h-16"
               aria-hidden="true"
             >
-              {/* Mosaic / tile pattern representing Mozaiek */}
               <rect x="4" y="4" width="33" height="33" rx="4" fill="#1E3A5F" />
               <rect x="43" y="4" width="33" height="33" rx="4" fill="#00A896" />
               <rect x="4" y="43" width="33" height="33" rx="4" fill="#F4A261" />
@@ -54,38 +69,57 @@ export function LoginScreen() {
             </h1>
             <p className="text-white/70 text-lg mt-2">Mozaiek 0318</p>
           </div>
-
-          <p className="text-white/60 text-center text-base leading-relaxed max-w-xs">
-            Jouw vrijwilligers rooster, diensten en team — altijd bij de hand.
-          </p>
         </div>
 
-        {/* Login button */}
-        <div className="space-y-4">
+        {/* Login form */}
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div className="space-y-3">
+            <div>
+              <label htmlFor="username" className="block text-white/70 text-sm mb-1">
+                Gebruikersnaam
+              </label>
+              <input
+                id="username"
+                type="text"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/40 border border-white/20 focus:outline-none focus:border-brand-teal focus:bg-white/15 transition"
+                placeholder="Gebruikersnaam"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="block text-white/70 text-sm mb-1">
+                Wachtwoord
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/40 border border-white/20 focus:outline-none focus:border-brand-teal focus:bg-white/15 transition"
+                placeholder="Wachtwoord"
+              />
+            </div>
+          </div>
+
+          {error && (
+            <p className="text-red-300 text-sm text-center">{error}</p>
+          )}
+
           <Button
-            onClick={handleLogin}
+            type="submit"
             loading={loading}
             fullWidth
             size="lg"
             className="bg-white !text-brand-blue hover:bg-white/90 shadow-lg"
           >
-            {!loading && (
-              <svg
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
-              </svg>
-            )}
-            Inloggen met Planning Center
+            Inloggen
           </Button>
-
-          <p className="text-white/40 text-xs text-center">
-            Je wordt doorgestuurd naar Planning Center om in te loggen
-          </p>
-        </div>
+        </form>
       </div>
     </div>
   );
